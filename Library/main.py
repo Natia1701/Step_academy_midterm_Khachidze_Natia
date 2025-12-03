@@ -27,19 +27,20 @@ class Book():
     def year(self, new_year):
         try:
             year_int = int(new_year)
-            if year_int < 0:
-                 raise ValueError("Year must be a non-negative number.")
-            self._year = year_int
         except ValueError:
              raise ValueError("Publishing year must be a valid integer.")
         
+        if year_int < 0:
+            raise ValueError("Year must be a non-negative number.")
+        self._year = year_int
+     
     @property
     def author(self):
         return self._author
     
     @author.setter
     def author(self, author_str):
-        if not author_str or not author_str.strip():
+        if not author_str or not author_str.strip():     #იჭერს როგორც ' ' ასევე NOne (თუ არაფერს შევიყვანთ)
              raise ValueError("Author cannot be empty.")
         self._author = author_str.strip()
 
@@ -75,7 +76,7 @@ class Bookmanager():
             print("Library is empty.")
         
         print(f"{' '*5} List of Books ")
-        for i, book in enumerate(self.books, 1):
+        for i, book in enumerate(self.books, 1):    #enumarate() ფუნქციით უფრო სწრაფად ხდება გადანომრა და დანომვრა იწყება 1-დან
             print(f"{i}.  {book}")
 
 
@@ -104,7 +105,7 @@ class Bookmanager():
                 
                 if data: 
                     for item in data:
-                        self.add_book(
+                        self.add_book(      #ამ მეთოდით Json ფაილიდან წამოღებული მონაცემები გაივლიან BOOK კლასის ვალიდაციას და არ ჩაიტვირთება დაზიანებული მონაცემი
                             title=item['title'], 
                             author=item['author'], 
                             year=item['year']
@@ -119,7 +120,7 @@ class Bookmanager():
             print(f"Unexpected Error: {e}")
     
     def save_books(self, filepath):
-        data_to_save = [book.to_dict() for book in self.books]
+        data_to_save = [book.to_dict() for book in self.books]  
         
         try:
             with open(filepath, 'w', encoding='utf-8') as file:
@@ -147,7 +148,7 @@ def main():
         print(f'{' '*6} The library ')
         print("1. add book")
         print("2. search book")
-        print("3. Swow books")
+        print("3. Show books")
         print("4. exit")
 
         answer = input("please enter number of operation - ").strip()
